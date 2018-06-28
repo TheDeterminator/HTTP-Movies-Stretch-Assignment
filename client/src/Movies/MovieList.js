@@ -6,19 +6,28 @@ export default class MovieList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies: []
+
     };
   }
 
   componentDidMount() {
-    // fill me in with an HTTP Request to `localhost:5000/api/movies`
-    this.setState({ movies: [] });
+    axios
+      .get(`http://localhost:5000/api/movies`)
+      .then(response => {
+        console.log(response.data);
+        this.props.setData(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
   }
+
 
   render() {
     return (
       <div className="movie-list">
-        {this.state.movies.map(movie => (
+        {this.props.movies.map(movie => (
           <MovieDetails key={movie.id} movie={movie} />
         ))}
       </div>
